@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareCase - Digital Patient Case Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loginView" class="login-screen">
+  <div class="login-card">
+    <div class="brand">CareCase</div>
+    <h1>Digital Patient Case Management</h1>
+    <p class="muted">College project prototype</p>
+    <form id="loginForm">
+      <label>Email</label>
+      <input id="loginEmail" type="email" value="doctor@carecase.demo" required>
+      <label>Password</label>
+      <input id="loginPassword" type="password" value="1234" required>
+      <button class="primary full" type="submit">Sign in</button>
+    </form>
+    <p class="hint">Demo login: doctor@carecase.demo / 1234</p>
+  </div>
+</div>
+
+<div id="appView" class="app hidden">
+  <aside class="sidebar">
+    <div class="brand">CareCase</div>
+    <button class="nav active" data-page="dashboard">📊 Dashboard</button>
+    <button class="nav" data-page="register">➕ Register Patient</button>
+    <button class="nav" data-page="patients">👥 Patients</button>
+    <button class="nav" data-page="records">📋 Case Records</button>
+    <button class="nav" data-page="triage">🚨 Triage Assistant</button>
+    <button class="nav" data-page="voice">🎙️ Voice Case Taking</button>
+    <button class="nav" data-page="about">ℹ️ About</button>
+    <button id="logoutBtn" class="nav logout">↪ Logout</button>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h2 id="pageTitle">Dashboard</h2>
+        <p class="muted">Patient information and case management</p>
+      </div>
+      <div class="user-chip">👨‍⚕️ Doctor</div>
+    </header>
+
+    <section id="dashboard" class="page">
+      <div class="stats">
+        <div class="stat"><span>Total Patients</span><strong id="statPatients">0</strong></div>
+        <div class="stat"><span>Case Records</span><strong id="statRecords">0</strong></div>
+        <div class="stat"><span>High Priority</span><strong id="statHigh">0</strong></div>
+        <div class="stat"><span>Today</span><strong id="statToday">0</strong></div>
+      </div>
+      <div class="grid two">
+        <div class="panel">
+          <div class="panel-head"><h3>Recent Patients</h3><button class="link-btn" data-page-link="patients">View all</button></div>
+          <div id="recentPatients"></div>
+        </div>
+        <div class="panel">
+          <h3>System Workflow</h3>
+          <div class="workflow">
+            <div>1. Register patient</div><div>2. Capture symptoms</div>
+            <div>3. Review history</div><div>4. Triage support</div>
+            <div>5. Doctor review</div><div>6. Save case record</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="register" class="page hidden">
+      <div class="panel">
+        <h3>Patient Registration</h3>
+        <form id="patientForm" class="form-grid">
+          <div><label>Full name *</label><input id="pName" required></div>
+          <div><label>Age *</label><input id="pAge" type="number" min="0" max="120" required></div>
+          <div><label>Gender</label><select id="pGender"><option>Male</option><option>Female</option><option>Other</option><option>Prefer not to say</option></select></div>
+          <div><label>Phone</label><input id="pPhone" type="tel"></div>
+          <div><label>Blood group</label><select id="pBlood"><option>Unknown</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+          <div><label>Allergies</label><input id="pAllergy" placeholder="e.g. Penicillin / None known"></div>
+          <div class="full-row"><label>Chief complaint / symptoms *</label><textarea id="pSymptoms" required></textarea></div>
+          <div class="full-row"><label>Previous medical history</label><textarea id="pHistory"></textarea></div>
+          <div class="full-row"><label>Current medications</label><textarea id="pMeds"></textarea></div>
+          <div class="full-row actions"><button class="primary" type="submit">Save Patient</button><button class="secondary" type="reset">Clear</button></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="patients" class="page hidden">
+      <div class="panel">
+        <div class="panel-head"><h3>Patient Directory</h3><input id="patientSearch" class="search" placeholder="Search name or phone"></div>
+        <div id="patientTable"></div>
+      </div>
+    </section>
+
+    <section id="records" class="page hidden">
+      <div class="panel">
+        <div class="panel-head"><h3>Case Records</h3><button id="exportBtn" class="secondary">Export JSON</button></div>
+        <div id="recordsList"></div>
+      </div>
+    </section>
+
+    <section id="triage" class="page hidden">
+      <div class="panel">
+        <h3>Emergency Triage Support</h3>
+        <p class="muted">Educational prototype only. This checklist does not diagnose or replace professional medical assessment.</p>
+        <form id="triageForm" class="form-grid">
+          <div class="full-row"><label>Symptoms / situation</label><textarea id="tSymptoms" placeholder="Describe the current situation"></textarea></div>
+          <div><label>Breathing difficulty?</label><select id="tBreathing"><option>No</option><option>Yes</option></select></div>
+          <div><label>Unresponsive / cannot be awakened?</label><select id="tUnresponsive"><option>No</option><option>Yes</option></select></div>
+          <div><label>Severe bleeding?</label><select id="tBleeding"><option>No</option><option>Yes</option></select></div>
+          <div><label>Severe chest pain?</label><select id="tChest"><option>No</option><option>Yes</option></select></div>
+          <div><label>Sudden severe neurological symptoms?</label><select id="tNeuro"><option>No</option><option>Yes</option></select></div>
+          <div class="full-row actions"><button class="primary" type="submit">Assess Priority</button></div>
+        </form>
+        <div id="triageResult"></div>
+      </div>
+    </section>
+
+    <section id="voice" class="page hidden">
+      <div class="panel">
+        <h3>Voice-Based Case Taking</h3>
+        <p class="muted">Uses your browser's speech-recognition feature when supported. Confirm all information with the patient.</p>
+        <div class="voice-controls">
+          <button id="startVoice" class="primary">🎙️ Start Listening</button>
+          <button id="stopVoice" class="secondary">Stop</button>
+        </div>
+        <div id="voiceStatus" class="status">Ready</div>
+        <textarea id="voiceText" class="voice-box" placeholder="Recognized speech will appear here..."></textarea>
+        <button id="useVoice" class="secondary">Use as Symptoms</button>
+      </div>
+    </section>
+
+    <section id="about" class="page hidden">
+      <div class="panel">
+        <h3>Project Overview</h3>
+        <p><b>Problem:</b> Patient case information is often collected and maintained across separate records.</p>
+        <p><b>Solution:</b> A centralized digital interface for registration, case history, search, voice-assisted data entry and emergency-priority support.</p>
+        <h4>Technology</h4>
+        <ul><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>Browser LocalStorage</li><li>Web Speech API where supported</li></ul>
+        <div class="notice"><b>Important:</b> This is a college-project prototype. Real healthcare deployment requires authentication, encryption, access control, audit logs, secure backend/database, clinical validation and compliance with applicable healthcare/privacy requirements.</div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
